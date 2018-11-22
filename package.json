@@ -1,0 +1,31 @@
+{
+  "name": "chatter",
+  "version": "0.0.1",
+  "description": "A web-based chatting application based on Nodejs, Express, and WebSockets",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattdriver123/chatter.git"
+  },
+  "keywords": [
+    "chat",
+    "chatter",
+    "websocket",
+    "node",
+    "express"
+  ],
+  "author": "Matthew Driver <mattdriver90@gmail.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/mattdriver123/chatter/issues"
+  },
+  "homepage": "https://github.com/mattdriver123/chatter#readme",
+  "devDependencies": {
+    "express": "^4.16.4",
+    "mocha": "^5.2.0"
+  }
+}
