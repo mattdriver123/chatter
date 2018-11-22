@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/mattdriver123/chatter#readme",
   "devDependencies": {
+    "eslint": "^5.9.0",
     "express": "^4.16.4",
     "mocha": "^5.2.0"
   }
