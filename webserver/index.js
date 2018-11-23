@@ -1,6 +1,6 @@
 'use strict';
 
-const app = require('./src/webserver/server.js');
+const app = require('./src/server.js');
 
 let main = () => {
     let host = '0.0.0.0';
