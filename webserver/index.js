@@ -11,7 +11,7 @@ let main = () => {
         port: port
     },
     () => {
-        console.log(`Application now listening on ${host}:${port}`);
+        app.logger.info(`Application now listening on ${host}:${port}`);
     });
 };
 
