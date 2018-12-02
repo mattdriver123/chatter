@@ -3,8 +3,11 @@
         <div class="message_log">
             <div v-for="message in messages">{{ message.text }}</div>
         </div>
-        <textarea></textarea>
-        <button>Send</button>
+        <textarea v-model="message_box"
+                  @keyup.enter="submitMessage"
+                  placeholder="Type here...">
+        </textarea>
+        <button @click="submitMessage">Send</button>
     </div>
 </template>
 
@@ -12,14 +15,15 @@
 module.exports = {
     data: function() {
         return {
-            messages: [
-                { text: 'Hello!' },
-                { text: 'This' },
-                { text: 'Is' },
-                { text: 'A' },
-                { text: 'Test' },
-            ]
+            messages: [],
+            message_box: ''
         };
+    },
+    methods: {
+        submitMessage: function submitMessage() {
+            this.messages.push({text: this.message_box});
+            this.message_box = '';
+        }
     }
 };
 </script>
