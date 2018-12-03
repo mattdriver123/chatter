@@ -4,7 +4,7 @@
             <div v-for="message in messages">{{ message.text }}</div>
         </div>
         <textarea v-model="message_box"
-                  @keyup.enter="submitMessage"
+                  @keypress.enter="textAreaOnEnter"
                   placeholder="Type here...">
         </textarea>
         <button @click="submitMessage">Send</button>
@@ -23,6 +23,15 @@ module.exports = {
         submitMessage: function submitMessage() {
             this.messages.push({text: this.message_box});
             this.message_box = '';
+        },
+        textAreaOnEnter: function textAreaOnEnter(e) {
+            if (!e.shiftKey) {
+                e.preventDefault();
+
+                if (this.message_box) {
+                    this.submitMessage();
+                }
+            }
         }
     }
 };
