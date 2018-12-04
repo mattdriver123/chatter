@@ -15,4 +15,45 @@ body {
     @extend %font_base;
 
     background: #eeeeee;
+    padding: 15px;
+}
+
+.message_form {
+    padding: 15px;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+
+    .message_log {
+        
+        .message_wrapper {
+            margin: 0 0 15px;
+
+            .message {
+                padding: 10px 15px;
+                border-radius: 4px;
+                background: #dddddd;
+                display: inline-block;
+            }
+
+            &.self {
+                text-align: right;
+                
+                .message {
+                    background: #009fe3;
+                    color: #ffffff;
+                }
+            }
+        }
+    }
+
+    .message_input {
+        @extend %font_base;
+
+        padding: (10px - 1px) (15px - 1px);
+        min-height: 1em;
+        max-height: 4em;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        resize: none;
+    }
 }

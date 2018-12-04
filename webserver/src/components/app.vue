@@ -1,13 +1,21 @@
 <template>
     <div id="app">
-        <div class="message_log">
-            <div v-for="message in messages">{{ message.text }}</div>
+        <div class="message_form">
+            <div class="message_log">
+                <div :class='[ "message_wrapper", { self: message.owner === "self" }]'
+                     v-for="message in messages">
+                    <div class="message">
+                        {{ message.text }}
+                    </div>
+                </div>
+            </div>
+            <textarea class="message_input"
+                      v-model="message_box"
+                      @keypress.enter="textAreaOnEnter"
+                      placeholder="Type here...">
+            </textarea>
+            <button @click="submitMessage">Send</button>
         </div>
-        <textarea v-model="message_box"
-                  @keypress.enter="textAreaOnEnter"
-                  placeholder="Type here...">
-        </textarea>
-        <button @click="submitMessage">Send</button>
     </div>
 </template>
 
@@ -21,7 +29,7 @@ module.exports = {
     },
     methods: {
         submitMessage: function submitMessage() {
-            this.messages.push({text: this.message_box});
+            this.messages.push({text: this.message_box, owner: 'self'});
             this.message_box = '';
         },
         textAreaOnEnter: function textAreaOnEnter(e) {
