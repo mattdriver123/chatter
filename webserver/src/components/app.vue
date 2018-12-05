@@ -2,12 +2,10 @@
     <div id="app">
         <div class="message_form">
             <div class="message_log">
-                <div :class='[ "message_wrapper", { self: message.owner === "self" }]'
-                     v-for="message in messages">
-                    <div class="message">
-                        {{ message.text }}
-                    </div>
-                </div>
+                <Message :details="message"
+                         :key="index + 1"
+                         v-for="message, index in messages">
+                </Message>
             </div>
             <textarea class="message_input"
                       v-model="message_box"
@@ -20,7 +18,13 @@
 </template>
 
 <script>
-module.exports = {
+import moment from 'moment';
+import Message from './message.vue';
+
+export default {
+    components: {
+        Message: Message
+    },
     data: function() {
         return {
             messages: [],
@@ -29,7 +33,13 @@ module.exports = {
     },
     methods: {
         submitMessage: function submitMessage() {
-            this.messages.push({text: this.message_box, owner: 'self'});
+            this.messages.push(
+                {
+                    text: this.message_box,
+                    owner: 'you',
+                    date: moment()
+                }
+            );
             this.message_box = '';
         },
         textAreaOnEnter: function textAreaOnEnter(e) {

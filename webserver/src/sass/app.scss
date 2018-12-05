@@ -28,6 +28,25 @@ body {
         .message_wrapper {
             margin: 0 0 15px;
 
+            * {
+                vertical-align: top;
+            }
+
+            .owner {
+                $height: 28px;
+
+                text-align: center;
+                display: inline-block;
+                width: $height;
+                height: $height;
+                line-height: $height;
+                border-radius: 50%;
+                overflow: hidden;
+                background: #aaaaaa;
+                color: #ffffff;
+                margin: 5px 5px 0 0;
+            }
+
             .message {
                 padding: 10px 15px;
                 border-radius: 4px;
@@ -35,8 +54,16 @@ body {
                 display: inline-block;
             }
 
+            .date {
+                margin-top: 5px;
+            }
+
             &.self {
                 text-align: right;
+
+                .owner {
+                    margin: 5px 0 0 5px;
+                }
                 
                 .message {
                     background: #009fe3;
