@@ -8,6 +8,7 @@ This project is a personal project to learn about a number of technologies, incl
 - webpack
 - vue
 - websockets
+- express
 - docker
 - nginx
 - hosting a webserver
@@ -24,10 +25,10 @@ NPM (v6.4.1 at the time of writing)
     cd webserver
     npm i
 
-## Running the webserver
-
-    npm start
-
 ## Building the Vue components
 
     npm run webpack
+
+## Running the webserver
+
+    npm start
