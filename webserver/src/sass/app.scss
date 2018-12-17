@@ -44,7 +44,7 @@ body {
                 overflow: hidden;
                 background: #aaaaaa;
                 color: #ffffff;
-                margin: 5px 5px 0 0;
+                margin: 4px;
             }
 
             .message {
@@ -61,10 +61,6 @@ body {
             &.self {
                 text-align: right;
 
-                .owner {
-                    margin: 5px 0 0 5px;
-                }
-                
                 .message {
                     background: #009fe3;
                     color: #ffffff;

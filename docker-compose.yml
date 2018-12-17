@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+
+  # nginx:
+  #   build:
+  #     context: ./nginx/
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   networks:
+  #     - backend
+
+  web:
+    build:
+      context: ./webserver/
+    ports:
+      - 80:8000
+    networks:
+      - backend
+
+
+networks:
+  backend:
