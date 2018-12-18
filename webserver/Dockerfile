@@ -1,7 +1,7 @@
 FROM node:10.14.2-alpine
 
-COPY ./package.json .
-COPY ./package-lock.json .
+COPY package.json .
+COPY package-lock.json .
 
 RUN ["npm", "install"]
 
