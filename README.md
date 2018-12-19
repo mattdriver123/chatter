@@ -24,6 +24,7 @@ Docker-compose
 ### Running Docker Containers
 
     git clone git@github.com:mattdriver123/chatter.git
+    cd chatter
     docker-compose up
 
 ### Accessing the App
@@ -41,7 +42,7 @@ NPM (v6.4.1 at the time of writing)
 ### Installation
 
     git clone git@github.com:mattdriver123/chatter.git
-    cd webserver
+    cd chatter/webserver
     npm i
 
 ### Running the webserver
