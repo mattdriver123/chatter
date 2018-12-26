@@ -35,11 +35,8 @@ let initSocketServer = () => {
 
         logger.info(`client connected: ${ws.id}`);
 
-        sendConnectionEstablishedMessage(ws, id);
-        sendBroadcast(ws, {
-            type: 'client_list_update',
-            clients: Object.keys(clients)
-        });
+        sendConnectionEstablishedMessage(ws);
+        sendClientListUpdate();
 
         ws.ping_interval = setInterval(() => {
             logger.debug(`sending ping to client: ${ws.id}`);
@@ -57,19 +54,28 @@ let initSocketServer = () => {
             clearInterval(ws.ping_interval);
 
             delete clients[ws.id];
+
+            sendClientListUpdate();
         });
     });
 
-    let sendConnectionEstablishedMessage = (ws, id, clients) => {
+    let sendConnectionEstablishedMessage = (ws) => {
         ws.send(
             JSON.stringify({
                 type: 'connection_established',
-                id: id
+                id: ws.id
             })
         );
     };
 
-    let sendBroadcast = (ws, data) => {
+    let sendClientListUpdate = () => {
+        sendBroadcast({
+            type: 'client_list_update',
+            clients: Object.keys(clients)
+        });
+    }
+
+    let sendBroadcast = (data) => {
         let keys = Object.keys(clients);
         for(let i = 0; i < keys.length; i++) {
             clients[keys[i]].send(JSON.stringify(data));
