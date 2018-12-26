@@ -1,5 +1,5 @@
 <template>
-    <div :class='[ "message_wrapper", { self: self }]'>
+    <div :class='[ "message-wrapper", { self: self }]'>
         <div>
             <span class="owner" v-if="!self">
                 {{ owner_initials }}
@@ -20,12 +20,10 @@
 <script>
 export default {
     props: [
-        'details'
+        'details',
+        'self'
     ],
     computed: {
-        self: function self() {
-            return this.details.owner === 'you';
-        },
         owner_initials: function owner_initials() {
             return this.details.owner[0].toUpperCase();
         }

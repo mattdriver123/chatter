@@ -1,25 +1,32 @@
 <template>
     <div id="app">
-        <div v-if="id">
-            ID: {{ id }}
-        </div>
-        <template v-if="clients.length">
-            Clients:
-            <div v-for="client in clients">{{ client }}</div>
-        </template>
-        <div class="message_form">
-            <div class="message_log">
+        <div class="card message-form">
+            <div class="message-log">
                 <Message :details="message"
+                         :self="message.owner === id"
                          :key="index + 1"
                          v-for="message, index in messages">
                 </Message>
             </div>
-            <textarea class="message_input"
+            <textarea class="message-input"
                       v-model="message_box"
                       @keypress.enter="textAreaOnEnter"
                       placeholder="Type here...">
             </textarea>
             <button @click="submitMessage">Send</button>
+        </div>
+        <div class="card client-list">
+            Clients ({{ clients.length }}):
+            <ul class="list-unstyled">
+                <li v-for="client in clients">
+                    <template v-if="client === id">
+                        {{ client }} (you)
+                    </template>
+                    <template v-else>
+                        {{ client }}
+                    </template>
+                </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -46,25 +53,31 @@ export default {
         this.socket.addEventListener('message', function(event) {
             let data = JSON.parse(event.data);
 
-            switch (data.type) {
+            switch (data[0]) {
                 case ('connection_established'):
-                    that.id = data.id;
+                    that.id = data[1];
                     break;
                 case ('client_list_update'):
-                    that.clients = data.clients;
+                    that.clients = data[1];
+                    break;
+                case ('receive_message'):
+                    that.messages.push({
+                        text: data[1].message,
+                        owner: data[1].user,
+                        date: moment.utc(data[1].date)
+                    });
                     break;
             }
         });
     },
     methods: {
         submitMessage: function submitMessage() {
-            this.messages.push(
-                {
-                    text: this.message_box,
-                    owner: 'you',
-                    date: moment()
-                }
-            );
+            this.sendMessage('post_message', this.message_box);
+            this.messages.push({
+                text: this.message_box,
+                owner: this.id,
+                date: moment()
+            });
             this.message_box = '';
         },
         textAreaOnEnter: function textAreaOnEnter(e) {
@@ -75,6 +88,11 @@ export default {
                     this.submitMessage();
                 }
             }
+        },
+        sendMessage: function sendMessage(type, data) {
+            this.socket.send(
+                JSON.stringify([type, data])
+            );
         }
     }
 };

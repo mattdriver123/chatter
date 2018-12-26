@@ -1,3 +1,5 @@
+$base_padding: 15px;
+
 %font_base {
     font-family: sans-serif;
     font-size: 14px;
@@ -15,17 +17,14 @@ body {
     @extend %font_base;
 
     background: #eeeeee;
-    padding: 15px;
+    padding: $base_padding;
 }
 
-.message_form {
-    padding: 15px;
-    background: #ffffff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+.message-form {
 
-    .message_log {
+    .message-log {
         
-        .message_wrapper {
+        .message-wrapper {
             margin: 0 0 15px;
 
             * {
@@ -69,7 +68,7 @@ body {
         }
     }
 
-    .message_input {
+    .message-input {
         @extend %font_base;
 
         padding: (10px - 1px) (15px - 1px);
@@ -79,4 +78,16 @@ body {
         overflow-y: scroll;
         resize: none;
     }
+}
+
+.card {
+    padding: $base_padding;
+    margin: 0 0 $base_padding 0;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.list-unstyled {
+    margin: 0;
+    list-style: none;
 }

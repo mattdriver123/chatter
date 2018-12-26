@@ -1,29 +1,37 @@
 'use strict';
 
+// Built-ins
 const http = require('http')
-const WebSocket = require('ws');
-const winston = require('winston');
 const path = require('path');
+
+// Third-party
 const uuid = require('uuid/v4');
+const winston = require('winston');
+const WebSocket = require('ws');
+
+const logger_options = {
+    level: 'info',
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.printf(info => {
+            return `[${info.timestamp}][${info.level.toUpperCase()}] ${info.message}`;
+        })
+    ),
+    transports: [
+        new winston.transports.Console()
+    ]
+};
 
 
 let initSocketServer = () => {
+    // create an http server which we can export
     let server = http.createServer();
 
+    // create a websocket server that we will use throughout
     let socket_server = new WebSocket.Server({ server });
-    let logger = winston.createLogger({
-        level: 'info',
-        format: winston.format.combine(
-            winston.format.timestamp(),
-            winston.format.printf(info => {
-                return `[${info.timestamp}][${info.level.toUpperCase()}] ${info.message}`;
-            })
-        ),
-        transports: [
-            new winston.transports.Console()
-        ]
-    });
 
+    // setup the logger for the application
+    let logger = winston.createLogger(logger_options);
     server.logger = logger;
 
     let clients = {};
@@ -57,28 +65,54 @@ let initSocketServer = () => {
 
             sendClientListUpdate();
         });
+
+        ws.on('message', (data) => {
+            logger.debug(`message received from client: ${ws.id}`);
+            logger.debug(`event details: ${data}`);
+
+            let parsed = JSON.parse(data);
+
+            switch (parsed[0]) {
+                case ('post_message'):
+                    let recipients = {};
+                    Object.keys(clients)
+                          .map(key => key !== ws.id ? recipients[key] = clients[key] : undefined);
+                    sendBroadcast(recipients, [
+                        'receive_message',
+                        {
+                            user: ws.id,
+                            message: parsed[1],
+                            date: Date.now()
+                        }
+                    ]);
+                    break;
+            }
+        });
     });
 
     let sendConnectionEstablishedMessage = (ws) => {
         ws.send(
-            JSON.stringify({
-                type: 'connection_established',
-                id: ws.id
-            })
+            JSON.stringify([
+                'connection_established',
+                ws.id
+            ])
         );
     };
 
     let sendClientListUpdate = () => {
-        sendBroadcast({
-            type: 'client_list_update',
-            clients: Object.keys(clients)
-        });
+        sendBroadcast(
+            clients,
+            [
+                'client_list_update',
+                Object.keys(clients)
+            ]
+        );
     }
 
-    let sendBroadcast = (data) => {
-        let keys = Object.keys(clients);
+    let sendBroadcast = (recipients, data) => {
+        let keys = Object.keys(recipients);
         for(let i = 0; i < keys.length; i++) {
-            clients[keys[i]].send(JSON.stringify(data));
+            recipients[keys[i]].send(JSON.stringify(data));
         };
     };
 
