@@ -2,7 +2,7 @@ version: "3"
 
 services:
 
-  nginx:
+  proxy:
     build:
       context: ./nginx/
     ports:
@@ -11,9 +11,15 @@ services:
     networks:
       - backend
 
-  web:
+  web_server:
     build:
       context: ./webserver/
+    networks:
+      - backend
+
+  socket_server:
+    build:
+      context: ./socket_server/
     networks:
       - backend
 

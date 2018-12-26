@@ -1,0 +1,16 @@
+{
+  "name": "socket_server",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Matthew Driver <mattdriver90@gmail.com>",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "uuid": "^3.3.2",
+    "winston": "^3.1.0",
+    "ws": "^6.1.2"
+  }
+}
